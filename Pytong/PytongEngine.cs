@@ -15,7 +15,7 @@ namespace Pytong
         bool exit = false;
 
         int xDelta = 4;
-        int yDelta = 2;
+        int yDelta = 3;
 
         ConsoleKey[] controlKeys = new ConsoleKey[5];
         ConsoleColor pytongColor;
@@ -136,35 +136,37 @@ namespace Pytong
 
         void drawBorders()
         {
+            int mapXDelta = xDelta + 2;
             Console.BackgroundColor = ConsoleColor.DarkGray;
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.CursorSize = 2;
             for (int x = 0; x < mapWidth + 2; x++)
             {
-                Console.SetCursorPosition(xDelta + 2 * x, yDelta);
+                Console.SetCursorPosition(mapXDelta + 2 * x, yDelta);
                 Console.Write("  ");
             }
             for (int x = 0; x < mapWidth + 2; x++)
             {
-                Console.SetCursorPosition(xDelta + 2 * x, yDelta + 1 + mapHeight);
+                Console.SetCursorPosition(mapXDelta + 2 * x, yDelta + 1 + mapHeight);
                 Console.Write("  ");
             }
             for (int y = 0; y < mapHeight + 1; y++)
             {
-                Console.SetCursorPosition(xDelta, yDelta + y);
+                Console.SetCursorPosition(mapXDelta, yDelta + y);
                 Console.Write("  ");
             }
             for (int y = 0; y < mapHeight + 1; y++)
             {
-                Console.SetCursorPosition(xDelta + 2 + mapWidth * 2, yDelta + y);
+                Console.SetCursorPosition(mapXDelta + 2 + mapWidth * 2, yDelta + y);
                 Console.Write("  ");
             }
         }
         void render()
         {
+            int mapXDelta = xDelta + 2;
             foreach (CzenscWenza cz in pytong)
             {
-                int x = xDelta + 2 + cz.x * 2;
+                int x = mapXDelta + 2 + cz.x * 2;
                 int y = yDelta + mapHeight - cz.y;
                 Console.BackgroundColor = pytongColor;
                 Console.ForegroundColor = ConsoleColor.Green;
@@ -173,14 +175,16 @@ namespace Pytong
                 Console.Write(cz.model);
             }
             Console.BackgroundColor = ConsoleColor.Red;
-            Console.SetCursorPosition(japkox * 2 + xDelta + 2, mapHeight - japkoy + yDelta);
+            Console.SetCursorPosition(japkox * 2 + mapXDelta + 2, mapHeight - japkoy + yDelta);
             Console.Write("  ");
-            Console.SetCursorPosition(mapWidth, mapHeight + yDelta + 2);
+            Console.SetCursorPosition(mapWidth + xDelta, mapHeight + yDelta + 2);
             Console.Write("SCORE :" + applesEaten * pointsMultiplier);
         }
 
         public void GameLoop()
         {
+            int mapXDelta = xDelta + 2;
+
             pointsMultiplier = speed;
 
             Console.CursorVisible = false;
@@ -254,7 +258,7 @@ namespace Pytong
                     if (cw.wiek > dlugosc)
                     {
                         Console.BackgroundColor = ConsoleColor.Black;
-                        Console.SetCursorPosition(cw.x * 2 + xDelta + 2, mapHeight - cw.y + yDelta);
+                        Console.SetCursorPosition(cw.x * 2 + mapXDelta + 2, mapHeight - cw.y + yDelta);
                         Console.Write("  ");
                         doUsuniecia = cw;
                     }
@@ -291,10 +295,14 @@ namespace Pytong
                 Thread.Sleep(100);
                 j++;
             }
-            Console.SetCursorPosition(0, 5);
+            Console.SetCursorPosition(xDelta + 0, yDelta + 5);
             Console.ResetColor();
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write("               Przegrałeś\n           Pożarłeś " + applesEaten + " jabłek\n              " + applesEaten * pointsMultiplier + " Punktów"); Console.ForegroundColor = ConsoleColor.Black;
+            Console.Write("               Przegrałeś\n");
+            Console.SetCursorPosition(xDelta + 0, yDelta + 6);
+            Console.Write("           Pożarłeś " + applesEaten + " jabłek\n");
+            Console.SetCursorPosition(xDelta + 0, yDelta + 7);
+            Console.Write("              " + applesEaten * pointsMultiplier + " Punktów"); Console.ForegroundColor = ConsoleColor.Black;
             while (Console.KeyAvailable)
                 Console.ReadKey(false);
             Console.ReadKey();
